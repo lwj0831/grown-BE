@@ -2,6 +2,7 @@ package vision.grown.orderFunding;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import vision.grown.funding.Funding;
@@ -33,4 +34,26 @@ public class OrderFunding {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")
     private Product product;
+
+    @Builder
+    public OrderFunding(BigDecimal orderPrice, int quantity, Member member, Funding funding, Product product) {
+        this.orderPrice = orderPrice;
+        this.quantity = quantity;
+        this.member = member;
+        this.funding = funding;
+        this.product = product;
+    }
+
+    public static OrderFunding createOrderFunding(int quantity,Member member,Product product,Funding funding){
+        OrderFunding orderFunding = OrderFunding.builder()
+                .quantity(quantity)
+                .orderPrice(BigDecimal.valueOf((long) product.getMinPrice() * quantity))
+                .member(member)
+                .product(product)
+                .funding(funding)
+                .build();
+        product.removeStock(quantity);
+        return orderFunding;
+    }
+
 }
