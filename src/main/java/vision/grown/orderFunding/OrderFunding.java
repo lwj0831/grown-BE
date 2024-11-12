@@ -21,7 +21,6 @@ public class OrderFunding {
 
     private BigDecimal orderPrice;
     private int quantity;
-    private OrderFundingStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")

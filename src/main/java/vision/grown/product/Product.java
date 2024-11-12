@@ -24,7 +24,7 @@ public class Product {
     private int minUnit;
     private int minPrice;
     private ProductStatus productStatus;
-    private LocalDateTime expireDate;
+    private LocalDateTime productExpireDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import vision.grown.center.Center;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -17,6 +19,7 @@ public class Funding {
     private String content;
     private double fundingRate;
     private FundingStatus fundingStatus;
+    private LocalDateTime fundingExpireDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="center_id")
