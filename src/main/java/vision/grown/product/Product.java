@@ -25,6 +25,7 @@ public class Product {
     private int totalQuantity;
     private int minUnit;
     private int minPrice;
+    @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
     private LocalDateTime productExpireDate;
 

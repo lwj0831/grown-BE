@@ -20,6 +20,7 @@ public class Member {
     private String password;
     private String name;
     private String phoneNum;
+    @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
     @OneToMany(mappedBy = "member")
