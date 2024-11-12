@@ -15,6 +15,7 @@ public class Center {
     private Long id;
     private String centerName;
     private String centerInfo;
+    @Enumerated(EnumType.STRING)
     private CenterType centerType;
     @Embedded
     private Address address;
