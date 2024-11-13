@@ -21,7 +21,7 @@ public class Product {
 
     private String productName;
     private ProductType productType;
-    private BigDecimal totalPrice;
+    private int totalPrice;
     private int totalQuantity;
     private int minUnit;
     private int minPrice;

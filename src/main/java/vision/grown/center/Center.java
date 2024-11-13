@@ -1,9 +1,13 @@
 package vision.grown.center;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,5 +23,9 @@ public class Center {
     private CenterType centerType;
     @Embedded
     private Address address;
+
+    @OneToMany(mappedBy = "center")
+    @JsonIgnore
+    private List<CenterImage> centerImageList = new ArrayList<>();
 
 }
