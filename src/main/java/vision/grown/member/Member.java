@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import vision.grown.orderFunding.OrderFunding;
+import vision.grown.funding.OrderFunding;
 
 import java.util.List;
 
