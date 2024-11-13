@@ -2,6 +2,7 @@ package vision.grown.funding.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import vision.grown.center.CenterType;
 import vision.grown.funding.Funding;
 import vision.grown.product.ProductType;
@@ -30,8 +31,8 @@ public class ReadFundingResDto {
         this.url = url;
     }
 
-    public ReadFundingResDto(Funding funding) {
-        new ReadFundingResDtoBuilder().centerName(funding.getCenter().getCenterName())
+    public static ReadFundingResDto createReadFundingResDto(Funding funding) {
+        return new ReadFundingResDtoBuilder().centerName(funding.getCenter().getCenterName())
                 .centerType(funding.getCenter().getCenterType())
                 .fundingTitle(funding.getFundingTitle())
                 .productType(funding.getProductTypeList())

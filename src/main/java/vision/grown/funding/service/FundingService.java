@@ -23,6 +23,6 @@ public class FundingService {
         PageRequest pageRequest = PageRequest.of(0, 30);
         Page<Funding> fundingPage = fundingRepository.findFundingList(dto.getCenterType(), dto.getFundingStatus(), pageRequest);
         List<Funding> fundingList = fundingPage.getContent();
-        return fundingList.stream().map(ReadFundingResDto::new).toList();
+        return fundingList.stream().map(ReadFundingResDto::createReadFundingResDto).toList();
     }
 }

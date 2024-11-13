@@ -13,7 +13,7 @@ public class CenterImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="center_image_id")
     private Long id;
-
+    private int imageOrder;
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)

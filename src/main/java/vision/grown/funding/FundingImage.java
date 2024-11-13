@@ -14,7 +14,7 @@ public class FundingImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "funding_image_id")
     private Long id;
-
+    private int imageOrder;
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
