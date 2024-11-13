@@ -20,7 +20,6 @@ public class Product {
     private Long id;
 
     private String productName;
-    private ProductType productType;
     private int totalPrice;
     private int totalQuantity;
     private int minUnit;
@@ -28,6 +27,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
     private LocalDateTime productExpireDate;
+    @Enumerated(EnumType.STRING)
+    private ProductType productType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")

@@ -47,6 +47,7 @@ public class OrderProduct {
     public static OrderProduct createOrderProduct(int quantity, int price, Product product, OrderFunding orderFunding){
         OrderProduct orderProduct = new OrderProductBuilder().quantity(quantity).price(price).product(product).build();
         orderProduct.setOrderFunding(orderFunding);
+        product.removeStock(quantity);
         return orderProduct;
     }
 

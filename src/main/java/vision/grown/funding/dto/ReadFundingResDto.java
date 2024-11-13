@@ -7,28 +7,25 @@ import vision.grown.funding.Funding;
 import vision.grown.product.ProductType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class ReadFundingResDto {
     private String centerName;
     private CenterType centerType;
     private String fundingTitle;
-    private ProductType productType;
-    private int currentAmount;
+    private List<ProductType> productType;
     private double fundingRate;
-    private double totalAmount;
     private LocalDate expireDate;
     private String url;
 
     @Builder
-    public ReadFundingResDto(String centerName, CenterType centerType, String fundingTitle, ProductType productType, int currentAmount, double fundingRate, double totalAmount, LocalDate expireDate, String url) {
+    public ReadFundingResDto(String centerName, CenterType centerType, String fundingTitle, List<ProductType> productType, double fundingRate, LocalDate expireDate, String url) {
         this.centerName = centerName;
         this.centerType = centerType;
         this.fundingTitle = fundingTitle;
         this.productType = productType;
-        this.currentAmount = currentAmount;
         this.fundingRate = fundingRate;
-        this.totalAmount = totalAmount;
         this.expireDate = expireDate;
         this.url = url;
     }
@@ -37,12 +34,10 @@ public class ReadFundingResDto {
         new ReadFundingResDtoBuilder().centerName(funding.getCenter().getCenterName())
                 .centerType(funding.getCenter().getCenterType())
                 .fundingTitle(funding.getFundingTitle())
-                .productType(funding.getProductType())
-                .currentAmount(funding.getCurrentAmount())
+                .productType(funding.getProductTypeList())
                 .fundingRate(funding.getFundingRate())
-                .totalAmount(funding.getTotalAmount())
                 .expireDate(funding.getFundingExpireDate())
-                .url(funding.getCenter().getCenterImageList().get(0).getUrl())
+                .url(funding.getFundingImageList().get(0).getUrl())
                 .build();
     }
 }
