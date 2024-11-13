@@ -18,6 +18,6 @@ public class FundingImage {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JoinColumn(name="funding_id")
     private Funding funding;
 }

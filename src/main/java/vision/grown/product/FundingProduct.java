@@ -15,14 +15,11 @@ public class FundingProduct {
     @Column(name="funding_product_id")
     private Long id;
     private int requiredQuantity;
-    private int currentQuantity;
+    @Enumerated(EnumType.STRING)
     private ProductType productType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funding_id")
     private Funding funding;
 
-    public double getFundraisingRate(){
-        return (double) currentQuantity / requiredQuantity *100;
-    }
 }

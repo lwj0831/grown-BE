@@ -53,7 +53,7 @@ public class OrderFundingService {
         orderFundingRepository.save(orderFunding);
 
         List<String> memberNameList = products.stream().map(p -> p.getMember().getName()).toList();
-        double contributionRate = (double) orderFunding.getTotalOrderQuantity()/funding.getTotalAmount();
+        double contributionRate = (double) orderFunding.getTotalOrderQuantity()/funding.getTotalRequiredAmount();
         return CreateOrderFundingResDto.builder()
                 .centerName(funding.getCenter().getCenterName())
                 .totalOrderPrice(orderFunding.getTotalOrderPrice())

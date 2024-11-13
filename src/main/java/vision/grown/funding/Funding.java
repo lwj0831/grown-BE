@@ -27,7 +27,6 @@ public class Funding {
     @Enumerated(EnumType.STRING)
     private FundingStatus fundingStatus;
     private LocalDate fundingExpireDate;
-    private ProductType productType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="center_id")
@@ -41,17 +40,24 @@ public class Funding {
     @JsonIgnore
     private List<FundingProduct> fundingProductList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "funding")
+    @JsonIgnore
+    private List<FundingImage> fundingImageList = new ArrayList<>();
+
     public double getFundingRate(){
-        return (double) getCurrentAmount() / getTotalAmount() * 100;
+        return (double) getCurrentAmount() / getTotalRequiredAmount() * 100;
     }
-    public int getCurrentRaisingPrice(){
+    public int getCurrentRaisingPrice(){//orderFunding N
         return orderFundingList.stream().mapToInt(OrderFunding::getTotalOrderPrice).sum();
     }
 
-    public int getCurrentAmount(){
-        return fundingProductList.stream().mapToInt(FundingProduct::getCurrentQuantity).sum();
+    public int getCurrentAmount(){//orderFunding N
+        return orderFundingList.stream().mapToInt(OrderFunding::getTotalOrderQuantity).sum();
     }
-    public int getTotalAmount(){
+    public int getTotalRequiredAmount(){
         return fundingProductList.stream().mapToInt(FundingProduct::getRequiredQuantity).sum();
+    }
+    public List<ProductType> getProductTypeList(){
+        return fundingProductList.stream().map(FundingProduct::getProductType).toList();
     }
 }
