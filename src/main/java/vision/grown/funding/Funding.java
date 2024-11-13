@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import vision.grown.center.Center;
 import vision.grown.product.FundingProduct;
 import vision.grown.product.ProductType;
@@ -44,8 +45,10 @@ public class Funding {
     @JsonIgnore
     private List<FundingImage> fundingImageList = new ArrayList<>();
 
-    public double getFundingRate(){
-        return (double) getCurrentAmount() / getTotalRequiredAmount() * 100;
+    public int getFundingRate(){
+        System.out.println(getCurrentAmount());
+        System.out.println(getTotalRequiredAmount());
+        return (int)((double) getCurrentAmount() / getTotalRequiredAmount() * 100);
     }
     public int getCurrentRaisingPrice(){//orderFunding N
         return orderFundingList.stream().mapToInt(OrderFunding::getTotalOrderPrice).sum();
