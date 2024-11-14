@@ -3,10 +3,7 @@ package vision.grown.funding;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import vision.grown.center.Center;
 import vision.grown.product.FundingProduct;
 import vision.grown.product.ProductType;
@@ -24,7 +21,6 @@ public class Funding {
     private Long id;
     private String fundingTitle;
     private String fundingContent;
-    @Min(value=0, message = "Funding amount must be at least 0")
     @Enumerated(EnumType.STRING)
     private FundingStatus fundingStatus;
     private LocalDate fundingExpireDate;
@@ -65,5 +61,12 @@ public class Funding {
     public List<ProductType> getProductTypeList(){
         return fundingProductList.stream().map(FundingProduct::getProductType).distinct().toList();
     }
-
+    @Builder
+    public Funding(String fundingTitle, String fundingContent, FundingStatus fundingStatus, LocalDate fundingExpireDate, Center center) {
+        this.fundingTitle = fundingTitle;
+        this.fundingContent = fundingContent;
+        this.fundingStatus = fundingStatus;
+        this.fundingExpireDate = fundingExpireDate;
+        this.center = center;
+    }
 }

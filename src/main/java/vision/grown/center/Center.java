@@ -3,6 +3,7 @@ package vision.grown.center;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,9 @@ public class Center {
     @JsonIgnore
     private List<CenterImage> centerImageList = new ArrayList<>();
 
+    @Builder
+    public Center(String centerName, CenterType centerType) {
+        this.centerName = centerName;
+        this.centerType = centerType;
+    }
 }
