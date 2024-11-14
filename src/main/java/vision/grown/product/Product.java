@@ -29,6 +29,8 @@ public class Product {
     private LocalDateTime productExpireDate;
     @Enumerated(EnumType.STRING)
     private ProductType productType;
+    @Enumerated(EnumType.STRING)
+    private MeasurementUnit MeasurementUnit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
