@@ -12,6 +12,7 @@ import java.util.List;
 
 @Getter
 public class ReadFundingResDto {
+    private Long fundingId;
     private String centerName;
     private CenterType centerType;
     private String fundingTitle;
@@ -21,7 +22,8 @@ public class ReadFundingResDto {
     private String url;
 
     @Builder
-    public ReadFundingResDto(String centerName, CenterType centerType, String fundingTitle, List<ProductType> productType, double fundingRate, LocalDate expireDate, String url) {
+    public ReadFundingResDto(Long fundingId, String centerName, CenterType centerType, String fundingTitle, List<ProductType> productType, double fundingRate, LocalDate expireDate, String url) {
+        this.fundingId = fundingId;
         this.centerName = centerName;
         this.centerType = centerType;
         this.fundingTitle = fundingTitle;
@@ -32,7 +34,9 @@ public class ReadFundingResDto {
     }
 
     public static ReadFundingResDto createReadFundingResDto(Funding funding) {
-        return new ReadFundingResDtoBuilder().centerName(funding.getCenter().getCenterName())
+        return new ReadFundingResDtoBuilder()
+                .fundingId(funding.getId())
+                .centerName(funding.getCenter().getCenterName())
                 .centerType(funding.getCenter().getCenterType())
                 .fundingTitle(funding.getFundingTitle())
                 .productType(funding.getProductTypeList())
