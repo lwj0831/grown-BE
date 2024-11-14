@@ -1,14 +1,16 @@
 package vision.grown.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import vision.grown.exception.NotEnoughStockException;
 import vision.grown.member.Member;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,13 +22,14 @@ public class Product {
     private Long id;
 
     private String productName;
+    private String productContent;
     private int totalPrice;
     private int totalQuantity;
     private int minUnit;
     private int minPrice;
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
-    private LocalDateTime productExpireDate;
+    private LocalDate productExpireDate;
     @Enumerated(EnumType.STRING)
     private ProductType productType;
     @Enumerated(EnumType.STRING)
@@ -36,6 +39,10 @@ public class Product {
     @JoinColumn(name="member_id")
     private Member member;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<ProductImage> productImageList = new ArrayList<>();
+
     public void removeStock(int quantity){
         int restStock = totalQuantity-quantity;
         if (restStock<0){
@@ -43,6 +50,21 @@ public class Product {
         }
         totalQuantity = restStock;
         if(totalQuantity<=0) productStatus = ProductStatus.COMP;
+    }
+
+    @Builder
+    public Product(String productName, String productContent, int totalPrice, int totalQuantity, int minUnit, int minPrice, ProductStatus productStatus, LocalDate productExpireDate, ProductType productType, vision.grown.product.MeasurementUnit measurementUnit, Member member) {
+        this.productName = productName;
+        this.productContent = productContent;
+        this.totalPrice = totalPrice;
+        this.totalQuantity = totalQuantity;
+        this.minUnit = minUnit;
+        this.minPrice = minPrice;
+        this.productStatus = productStatus;
+        this.productExpireDate = productExpireDate;
+        this.productType = productType;
+        MeasurementUnit = measurementUnit;
+        this.member = member;
     }
 
 }

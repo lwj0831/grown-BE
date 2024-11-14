@@ -2,6 +2,7 @@ package vision.grown.product;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +20,11 @@ public class ProductImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")
     private Product product;
+
+    @Builder
+    public ProductImage(int imageOrder, String url, Product product) {
+        this.imageOrder = imageOrder;
+        this.url = url;
+        this.product = product;
+    }
 }
