@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:file:dev.env[.properties]
   datasource:
     driver-class-name: ${DB_DRIVER}
     url: ${DB_URL}
@@ -15,3 +17,5 @@ spring:
     logging.level:
       org.hibernate.SQL: debug
       org.hibernate.type: trace
+JWT:
+  SECRET-KEY: ${JWT_KEY}
