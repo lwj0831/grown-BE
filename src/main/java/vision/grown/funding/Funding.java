@@ -46,13 +46,13 @@ public class Funding {
     }
 
     public double getFundingRate(){
-        return Math.floor((double) getCurrentQuantity() / getTotalRequiredQuantity() * 100);
+        return Math.floor((double) getTotalCurrentQuantity() / getTotalRequiredQuantity() * 100);
     }
-    public int getCurrentPrice(){//orderFunding N
+    public int getCurrentPrice(){//orderFunding N, fetch join 적용 못하고 지연로딩됨
         return orderFundingList.stream().mapToInt(OrderFunding::getOrderFundingPrice).sum();
     }
 
-    public int getCurrentQuantity(){//orderFunding N
+    public int getTotalCurrentQuantity(){//orderFunding N, fetch join 적용 못하고 지연로딩됨
         return orderFundingList.stream().mapToInt(OrderFunding::getOrderFundingQuantity).sum();
     }
     public int getTotalRequiredQuantity(){

@@ -1,14 +1,14 @@
-package vision.grown.funding.dto;
+package vision.grown.product.dto;
 
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-public class ReadFundingResDto<T> {
+public class ReadProductResDto<T> {
     private List<T> result;
 
-    public ReadFundingResDto(List<T> result) {
+    public ReadProductResDto(List<T> result) {
         this.result = result;
     }
 }

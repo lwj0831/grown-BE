@@ -11,6 +11,6 @@ import java.util.Optional;
 
 public interface OrderProductRepository extends JpaRepository<OrderProduct,Long> {
     //productType 사용 위해 join
-    @Query("select sum(op.quantity) from OrderProduct op join op.product p where p = op.product and p.productType=:productType")
-    int getCurrentQuantityByProductType(@Param("productType") ProductType productType);
+    @Query("select sum(op.quantity) from OrderProduct op join op.product p where op.orderFunding.id=:orderFundingId and p.productType=:productType")
+    int getCurrentQuantity(@Param("orderFundingId")Long orderFundingId, @Param("productType") ProductType productType);
 }
