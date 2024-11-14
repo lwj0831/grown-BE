@@ -39,7 +39,8 @@ public class Product {
         if (restStock<0){
             throw new NotEnoughStockException("need more stock");
         }
-        this.totalQuantity=restStock;
+        totalQuantity = restStock;
+        if(totalQuantity<=0) productStatus = ProductStatus.COMP;
     }
 
 }

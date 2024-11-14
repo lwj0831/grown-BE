@@ -19,7 +19,7 @@ public class OrderProduct {
     private Long id;
 
     private int quantity;
-    private int price;
+    private int orderPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_funding_id")
@@ -33,19 +33,19 @@ public class OrderProduct {
         this.orderFunding = orderFunding;
         orderFunding.getOrderProductList().add(this);
     }
-    public int getOrderFundingPrice(){
-        return quantity*price;
+    public int getOrderProductPrice(){
+        return quantity*orderPrice;
     }
 
     @Builder
-    public OrderProduct(int quantity, int price, Product product) {
+    public OrderProduct(int quantity, int orderPrice, Product product) {
         this.quantity = quantity;
-        this.price = price;
+        this.orderPrice = orderPrice;
         this.product = product;
     }
 
-    public static OrderProduct createOrderProduct(int quantity, int price, Product product, OrderFunding orderFunding){
-        OrderProduct orderProduct = new OrderProductBuilder().quantity(quantity).price(price).product(product).build();
+    public static OrderProduct createOrderProduct(int quantity, int orderPrice, Product product, OrderFunding orderFunding){
+        OrderProduct orderProduct = new OrderProductBuilder().quantity(quantity).orderPrice(orderPrice).product(product).build();
         orderProduct.setOrderFunding(orderFunding);
         product.removeStock(quantity);
         return orderProduct;

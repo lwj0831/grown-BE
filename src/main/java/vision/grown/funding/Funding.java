@@ -45,22 +45,25 @@ public class Funding {
     @JsonIgnore
     private List<FundingImage> fundingImageList = new ArrayList<>();
 
-    public int getFundingRate(){
-        System.out.println(getCurrentAmount());
-        System.out.println(getTotalRequiredAmount());
-        return (int)((double) getCurrentAmount() / getTotalRequiredAmount() * 100);
-    }
-    public int getCurrentRaisingPrice(){//orderFunding N
-        return orderFundingList.stream().mapToInt(OrderFunding::getTotalOrderPrice).sum();
+    public void setFundingStatus(FundingStatus fundingStatus){
+        this.fundingStatus = fundingStatus;
     }
 
-    public int getCurrentAmount(){//orderFunding N
-        return orderFundingList.stream().mapToInt(OrderFunding::getTotalOrderQuantity).sum();
+    public double getFundingRate(){
+        return Math.floor((double) getCurrentQuantity() / getTotalRequiredQuantity() * 100);
     }
-    public int getTotalRequiredAmount(){
+    public int getCurrentPrice(){//orderFunding N
+        return orderFundingList.stream().mapToInt(OrderFunding::getOrderFundingPrice).sum();
+    }
+
+    public int getCurrentQuantity(){//orderFunding N
+        return orderFundingList.stream().mapToInt(OrderFunding::getOrderFundingQuantity).sum();
+    }
+    public int getTotalRequiredQuantity(){
         return fundingProductList.stream().mapToInt(FundingProduct::getRequiredQuantity).sum();
     }
     public List<ProductType> getProductTypeList(){
-        return fundingProductList.stream().map(FundingProduct::getProductType).toList();
+        return fundingProductList.stream().map(FundingProduct::getProductType).distinct().toList();
     }
+
 }
