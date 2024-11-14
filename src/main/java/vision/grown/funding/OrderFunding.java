@@ -52,10 +52,10 @@ public class OrderFunding {
         return orderFunding;
     }
 
-    public int getTotalOrderPrice(){
-        return orderProductList.stream().mapToInt(OrderProduct::getOrderFundingPrice).sum();
+    public int getOrderFundingPrice(){
+        return orderProductList.stream().mapToInt(OrderProduct::getOrderProductPrice).sum();
     }
-    public int getTotalOrderQuantity(){
+    public int getOrderFundingQuantity(){
         return orderProductList.stream().mapToInt(OrderProduct::getQuantity).sum();
     }
 
