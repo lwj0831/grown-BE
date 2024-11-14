@@ -6,6 +6,7 @@ import vision.grown.product.MeasurementUnit;
 
 @Getter
 public class ProductForm {
+    private Long productId;
     private String productName;
     private String memberName;
     private int minPrice;
@@ -13,7 +14,8 @@ public class ProductForm {
     private MeasurementUnit measurementUnit;
 
     @Builder
-    public ProductForm(String productName, String memberName, int minPrice, int minUnit, MeasurementUnit measurementUnit) {
+    public ProductForm(Long productId, String productName, String memberName, int minPrice, int minUnit, MeasurementUnit measurementUnit) {
+        this.productId = productId;
         this.productName = productName;
         this.memberName = memberName;
         this.minPrice = minPrice;

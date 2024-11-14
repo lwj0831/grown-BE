@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import vision.grown.product.ProductType;
 import vision.grown.product.dto.ProductForm;
+import vision.grown.product.dto.ReadProductResDto;
 import vision.grown.product.respository.ProductRepository;
 
 import java.util.List;
@@ -18,13 +19,14 @@ import java.util.List;
 public class ProductController {
     private final ProductRepository productRepository;
     @GetMapping
-    public List<ProductForm> searchProduct(@RequestParam("productType") ProductType productType){
+    public ReadProductResDto<ProductForm> searchProduct(@RequestParam("productType") ProductType productType){
         PageRequest pageRequest = PageRequest.of(0, 30);
-        return productRepository.findByProductType(productType, pageRequest).stream().map(p->ProductForm.builder()
+        return new ReadProductResDto<>(productRepository.findByProductType(productType, pageRequest).stream().map(p->ProductForm.builder()
+                .productId(p.getId())
                 .productName(p.getProductName())
                 .minPrice(p.getMinPrice())
                 .minUnit(p.getMinUnit())
                 .memberName(p.getMember().getName())
-                .measurementUnit(p.getMeasurementUnit()).build()).toList();
+                .measurementUnit(p.getMeasurementUnit()).build()).toList());
     }
 }
