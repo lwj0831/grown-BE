@@ -69,12 +69,15 @@ public class OrderFundingService {
     private void updateFundingStatus(List<Product> products, Funding funding) {
         boolean check = true;
         for (Product product : products) {
-            if(orderProductRepository.getCurrentQuantityByProductType(product.getProductType())<
-                    fundingProductRepository.getRequiredQuantityByProductType(product.getProductType())){
+            int currentQuantity = funding.getOrderFundingList().stream()
+                    .mapToInt(of -> orderProductRepository.getCurrentQuantity(of.getId(), product.getProductType())).sum();
+            int requiredQuantity = fundingProductRepository.getRequiredQuantity(funding.getId(), product.getProductType());
+            if(currentQuantity < requiredQuantity){
                 check = false;
             }
         }
         if (check) funding.setFundingStatus(FundingStatus.COMP);
+
     }
 
 }
