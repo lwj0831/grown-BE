@@ -10,6 +10,7 @@ import vision.grown.center.repository.CenterRepository;
 import vision.grown.funding.Funding;
 import vision.grown.funding.FundingImage;
 import vision.grown.funding.FundingStatus;
+import vision.grown.funding.OrderFunding;
 import vision.grown.funding.dto.*;
 import vision.grown.funding.repository.FundingImageRepository;
 import vision.grown.funding.repository.FundingRepository;
@@ -78,6 +79,7 @@ public class FundingService {
                 .map(fp -> {
                     int requiredQuantity = fp.getRequiredQuantity();
                     int currentQuantity = getCurrentQuantity(funding, fp.getProductType());
+
                     return FundingProductDetailForm.builder()
                         .productType(fp.getProductType())
                         .currentQuantity(currentQuantity)

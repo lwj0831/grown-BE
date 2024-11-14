@@ -22,7 +22,7 @@ public class FundingController {
     public CreateFundingResDto createFunding(@RequestBody CreateFundingReqDto dto){
         return fundingService.createFunding(dto);
     }
-    @GetMapping("{fundingId}")
+    @GetMapping("/{fundingId}")
     public ReadFundingDetailResDto searchFundingDetail(@PathVariable("fundingId") Long fundingId){
         return fundingService.findFundingDetail(fundingId);
     }
