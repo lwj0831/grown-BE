@@ -19,8 +19,8 @@
 - BackEnd : Spring Framework ,Spring Data JPA, AWS EC2, AWS S3
 - 협업 툴 : GitHub, Discord, Notion, Figma
 
-## 😎 팀원 소개
-## ⛑️ 역할 분담
+
+## 😎 팀원 소개 및및 역할 분담
 
 ---
 
@@ -41,12 +41,11 @@
 - 😋유우석
     - JWT 로그인 및 회원가입 인증 인가 구현 / 멤버 도메인 API개발
     - AWS EC2 배포
-    - 
 ### Design
   - 😋윤규원
     - 플랫폼 전반 디자인
-    -  PPT작성 
-
+    -  PPT작성
+      
 ## 📚 페이지별 기능
 
 ---
