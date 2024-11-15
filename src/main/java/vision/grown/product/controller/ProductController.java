@@ -1,6 +1,8 @@
 package vision.grown.product.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import vision.grown.product.ProductType;
 import vision.grown.product.dto.*;
@@ -8,7 +10,7 @@ import vision.grown.product.service.ProductService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/product")
+@RequestMapping("/api/v1/product")
 public class ProductController {
     private final ProductService productService;
     @GetMapping("/search")
@@ -16,9 +18,12 @@ public class ProductController {
         return productService.searchProductList(productType);
     }
 
+    @Operation(
+            summary = "상품 판매 등록"
+    )
     @PostMapping("/create")
-    public CreateProductResDto createProduct(@ModelAttribute CreateProductReqDto createProductReqDto){
-        return productService.createProduct(createProductReqDto);
+    public CreateProductResDto createProduct(@ModelAttribute CreateProductReqDto createProductReqDto, Authentication authentication){
+        return productService.createProduct(createProductReqDto, authentication);
     }
 
     @GetMapping

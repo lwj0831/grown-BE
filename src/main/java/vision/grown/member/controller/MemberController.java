@@ -52,7 +52,8 @@ public class MemberController {
 
 
     @Operation(
-            summary = "마이 페이지 열람"
+            summary = "마이 페이지 열람",
+            description = "accessToken으로 Member 확인(인가 과정) 후 마이 페이지 열람"
     )
     @GetMapping("/info")
     public ResponseEntity<MemberInfoResDto> findMemberInfo(Authentication authentication){
