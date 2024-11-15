@@ -64,15 +64,12 @@ public class ProductService {
         return ReadProductDetailResDto.createReadProductDetailResDto(product);
     }
 
-    public SearchProductResDto<ProductForm> searchProductList(ProductType productType){
+    public SearchProductResDto<ReadProductForm> searchProductList(ProductType productType){
         PageRequest pageRequest = PageRequest.of(0, 30);
-        return new SearchProductResDto<>(productRepository.findByProductType(productType, pageRequest).stream().map(p->ProductForm.builder()
-                .productId(p.getId())
-                .productName(p.getProductName())
-                .minPrice(p.getMinPrice())
-                .minUnit(p.getMinUnit())
-                .memberName(p.getMember().getName())
-                .measurementUnit(p.getMeasurementUnit()).build()).toList());
+        List<ReadProductForm> readProductFormList = productRepository.findByProductType(productType, pageRequest).stream()
+                .map(ReadProductForm::createReadProductForm).toList();
+        return new SearchProductResDto<>(readProductFormList);
+
     }
 
 }

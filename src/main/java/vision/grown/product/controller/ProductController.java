@@ -12,7 +12,7 @@ import vision.grown.product.service.ProductService;
 public class ProductController {
     private final ProductService productService;
     @GetMapping("/search")
-    public SearchProductResDto<ProductForm> searchProductList(@RequestParam("productType") ProductType productType){
+    public SearchProductResDto<ReadProductForm> searchProductList(@RequestParam("productType") ProductType productType){
         return productService.searchProductList(productType);
     }
 
