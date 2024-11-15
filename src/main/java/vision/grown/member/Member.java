@@ -31,6 +31,10 @@ public class Member {
     @JsonIgnore
     private List<OrderFunding> orderFundingList = new ArrayList<>();
 
+    public void updatePassword(String password){
+        this.password = password;
+    }
+
     @Builder
     public Member(String email, String password, String name, String phoneNum) {
         this.email = email;

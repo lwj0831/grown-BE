@@ -65,4 +65,12 @@ public class MemberController {
         return memberService.findMemberId(dto);
     }
 
+    @Operation(
+            summary = "비밀번호 변경",
+            description = "email에 해당하는 유저의 비밀번호 변경 - email에 해당하는 유저 없으면 Not Found"
+    )
+    @PutMapping("/change/password")
+    public ResponseEntity<ChangePasswordResDTO> changePassword(@RequestBody ChangePasswordReqDTO dto){
+        return memberService.changePassword(dto);
+    }
 }

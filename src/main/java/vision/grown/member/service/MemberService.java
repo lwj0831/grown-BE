@@ -89,4 +89,16 @@ public class MemberService {
         Member validMember = member.get();
         return new ResponseEntity<>(FindIdResponseDTO.builder().email(validMember.getEmail()).build(), HttpStatus.OK);
     }
+
+    public ResponseEntity<ChangePasswordResDTO> changePassword(ChangePasswordReqDTO dto){
+        Optional<Member> member = memberRepository.findByEmail(dto.getEmail());
+        if (member.isEmpty()){
+            return new ResponseEntity<>(ChangePasswordResDTO.builder().build(), HttpStatus.NOT_FOUND);
+        }
+        Member validMember = member.get();
+        String encoded = passwordEncoder.encode(dto.getPassword());
+        validMember.updatePassword(encoded);
+        memberRepository.save(validMember);
+        return new ResponseEntity<>(ChangePasswordResDTO.builder().name(validMember.getName()).message("비밀번호 변경 성공").build(), HttpStatus.OK);
+    }
 }
