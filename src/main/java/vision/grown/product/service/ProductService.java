@@ -2,6 +2,7 @@ package vision.grown.product.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vision.grown.member.Member;
@@ -55,6 +56,13 @@ public class ProductService {
     public ReadProductResDto<ReadProductForm> findProductList(ReadProductReqDto dto){
         PageRequest pageRequest = PageRequest.of(0,30);
         List<ReadProductForm> readProductFormList = productRepository.findProductList(dto.getProductType(), dto.getProductStatus(), pageRequest).stream()
+                .map(ReadProductForm::createReadProductForm).toList();
+        return new ReadProductResDto<>(readProductFormList);
+    }
+
+    public ReadProductResDto<ReadProductForm> findCheapestProductList(){
+        PageRequest pageRequest = PageRequest.of(0,5);
+        List<ReadProductForm> readProductFormList = productRepository.findCheapestProduct(pageRequest).stream()
                 .map(ReadProductForm::createReadProductForm).toList();
         return new ReadProductResDto<>(readProductFormList);
     }

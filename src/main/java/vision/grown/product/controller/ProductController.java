@@ -30,4 +30,9 @@ public class ProductController {
     public ReadProductDetailResDto findProductDetail(@PathVariable("productId")Long productId){
         return productService.findProductDetail(productId);
     }
+
+    @GetMapping("/cheapest")
+    public ReadProductResDto<ReadProductForm> findCheapestProductList(){
+        return productService.findCheapestProductList();
+    }
 }

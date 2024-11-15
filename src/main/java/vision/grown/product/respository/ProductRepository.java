@@ -22,4 +22,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query("select p from Product p join fetch p.member join fetch p.productImageList where p.id = :productId")
     Optional<Product> findProductById(@Param("productId")Long productId);
 
+    @Query("select p from Product p where p.productStatus = 'SALE' order by p.minPrice ASC")
+    List<Product> findCheapestProduct(Pageable pageable);
+
 }
