@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import vision.grown.exception.MemberNotFoundException;
 import vision.grown.funding.OrderFunding;
 import vision.grown.member.Member;
 import vision.grown.member.dto.*;
@@ -73,7 +74,8 @@ public class MemberService {
     public ResponseEntity<MemberInfoResDto> findMemberInfo(Authentication authentication){
         Optional<Member> member = checkPermission(authentication);
         if (member.isEmpty()){
-            return new ResponseEntity<>(MemberInfoResDto.builder().build(), HttpStatus.BAD_REQUEST);
+            throw new MemberNotFoundException("Member not found");
+            //return new ResponseEntity<>(MemberInfoResDto.builder().build(), HttpStatus.BAD_REQUEST);
         }
         Member validMember = member.get();
         int memberFundingPrice = validMember.getOrderFundingList().stream().mapToInt(OrderFunding::getOrderFundingPrice).sum();
@@ -88,7 +90,8 @@ public class MemberService {
     public ResponseEntity<FindIdResponseDTO> findMemberId(FindIdRequestDTO dto){
         Optional<Member> member = memberRepository.findMemberByNameAndPhoneNum(dto.getName(), dto.getPhoneNum());
         if (member.isEmpty()){
-            return new ResponseEntity<>(FindIdResponseDTO.builder().build(), HttpStatus.NOT_FOUND);
+            throw new MemberNotFoundException("Member not found");
+            //return new ResponseEntity<>(FindIdResponseDTO.builder().build(), HttpStatus.NOT_FOUND);
         }
         Member validMember = member.get();
         return new ResponseEntity<>(FindIdResponseDTO.builder().email(validMember.getEmail()).build(), HttpStatus.OK);
@@ -97,7 +100,8 @@ public class MemberService {
     public ResponseEntity<ChangePasswordResDTO> changePassword(ChangePasswordReqDTO dto){
         Optional<Member> member = memberRepository.findByEmail(dto.getEmail());
         if (member.isEmpty()){
-            return new ResponseEntity<>(ChangePasswordResDTO.builder().build(), HttpStatus.NOT_FOUND);
+            throw new MemberNotFoundException("Member not found");
+            //return new ResponseEntity<>(ChangePasswordResDTO.builder().build(), HttpStatus.NOT_FOUND);
         }
         Member validMember = member.get();
         String encoded = passwordEncoder.encode(dto.getPassword());
