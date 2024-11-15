@@ -2,6 +2,7 @@ package vision.grown.product.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vision.grown.member.Member;
@@ -59,20 +60,24 @@ public class ProductService {
         return new ReadProductResDto<>(readProductFormList);
     }
 
+    public ReadProductResDto<ReadProductForm> findCheapestProductList(){
+        PageRequest pageRequest = PageRequest.of(0,5);
+        List<ReadProductForm> readProductFormList = productRepository.findCheapestProduct(pageRequest).stream()
+                .map(ReadProductForm::createReadProductForm).toList();
+        return new ReadProductResDto<>(readProductFormList);
+    }
+
     public ReadProductDetailResDto findProductDetail(Long productId){
         Product product = productRepository.findProductById(productId).orElseThrow();
         return ReadProductDetailResDto.createReadProductDetailResDto(product);
     }
 
-    public SearchProductResDto<ProductForm> searchProductList(ProductType productType){
+    public SearchProductResDto<ReadProductForm> searchProductList(ProductType productType){
         PageRequest pageRequest = PageRequest.of(0, 30);
-        return new SearchProductResDto<>(productRepository.findByProductType(productType, pageRequest).stream().map(p->ProductForm.builder()
-                .productId(p.getId())
-                .productName(p.getProductName())
-                .minPrice(p.getMinPrice())
-                .minUnit(p.getMinUnit())
-                .memberName(p.getMember().getName())
-                .measurementUnit(p.getMeasurementUnit()).build()).toList());
+        List<ReadProductForm> readProductFormList = productRepository.findByProductType(productType, pageRequest).stream()
+                .map(ReadProductForm::createReadProductForm).toList();
+        return new SearchProductResDto<>(readProductFormList);
+
     }
 
 }

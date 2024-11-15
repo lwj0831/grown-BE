@@ -12,7 +12,7 @@ import vision.grown.product.service.ProductService;
 public class ProductController {
     private final ProductService productService;
     @GetMapping("/search")
-    public SearchProductResDto<ProductForm> searchProductList(@RequestParam("productType") ProductType productType){
+    public SearchProductResDto<ReadProductForm> searchProductList(@RequestParam("productType") ProductType productType){
         return productService.searchProductList(productType);
     }
 
@@ -29,5 +29,10 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ReadProductDetailResDto findProductDetail(@PathVariable("productId")Long productId){
         return productService.findProductDetail(productId);
+    }
+
+    @GetMapping("/cheapest")
+    public ReadProductResDto<ReadProductForm> findCheapestProductList(){
+        return productService.findCheapestProductList();
     }
 }
