@@ -8,7 +8,6 @@
 ---
 
 - 개발 기간 : 24.11.07 ~ 24.11.16
-- 배포 URL : [**babsim-59d06.web.app**]([https://babsim-59d06.web.app](https://github.com/JinVibe/vegetable_android))
 - 안드로이드 GitHub : https://github.com/jhssong/babsim-FE
 - 로그인 후 사용해야 모든 기능 사용 가능
 
