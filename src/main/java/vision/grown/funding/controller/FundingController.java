@@ -23,6 +23,10 @@ public class FundingController {
     public SearchProductResDto<ReadFundingForm> searchFundingList(@RequestParam("productType")ProductType productType){
         return new SearchProductResDto<>(fundingService.searchFundingList(productType));
     }
+    @GetMapping("/deadline")
+    public ReadFundingResDto<ReadFundingForm> findDeadLineFunding(){
+        return new ReadFundingResDto<>(fundingService.findDeadLineFunding());
+    }
 
     @PostMapping("/create")
     public CreateFundingResDto createFunding(@RequestBody CreateFundingReqDto dto){

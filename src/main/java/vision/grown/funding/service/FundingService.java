@@ -44,6 +44,10 @@ public class FundingService {
         List<Funding> fundingList = fundingRepository.findByProductType(productType,pageRequest);
         return fundingList.stream().map(ReadFundingForm::createReadFundingResDto).toList();
     }
+    public List<ReadFundingForm> findDeadLineFunding(){
+        List<Funding> fundingList = fundingRepository.findFirst5ByExpireDateAsc(PageRequest.of(0, 5));
+        return fundingList.stream().map(ReadFundingForm::createReadFundingResDto).toList();
+    }
     @Transactional
     public CreateFundingResDto createFunding(CreateFundingReqDto dto){
         Center center = Center.builder().centerName(dto.getCenterName()).centerType(dto.getCenterType()).build();

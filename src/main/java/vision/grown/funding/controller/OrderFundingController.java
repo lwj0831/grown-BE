@@ -15,7 +15,7 @@ import vision.grown.funding.service.OrderFundingService;
 public class OrderFundingController {
     private final OrderFundingService orderFundingService;
 
-    @PostMapping
+    @PostMapping("/create")
     public CreateOrderFundingResDto createOrderFunding(@RequestBody CreateOrderFundingReqDto dto){
         return orderFundingService.createOrderFunding(dto);
     }

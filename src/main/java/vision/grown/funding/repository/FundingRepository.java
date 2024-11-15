@@ -23,7 +23,11 @@ public interface FundingRepository extends JpaRepository<Funding,Long> {
     Optional<Funding> findFundingById(@Param("fundingId") Long fundingId);
 
     //distinct로 조인 후 결과 row수 늘어나는 것을 막아 paging가능
-    @Query("SELECT DISTINCT f FROM Funding f WHERE f IN (SELECT fp.funding FROM FundingProduct fp WHERE fp.productType = :productType)")
+    @Query("SELECT DISTINCT f FROM Funding f WHERE f.fundingStatus = 'FUND' and f IN (SELECT fp.funding FROM FundingProduct fp WHERE fp.productType = :productType)")
     List<Funding> findByProductType(@Param("productType") ProductType productType, Pageable pageable);
+
+    @Query("SELECT f FROM Funding f WHERE f.fundingStatus = 'FUND' ORDER BY f.fundingExpireDate ASC")
+    List<Funding> findFirst5ByExpireDateAsc(Pageable pageable);
+
 
 }
