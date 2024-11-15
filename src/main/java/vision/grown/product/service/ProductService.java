@@ -9,6 +9,7 @@ import vision.grown.member.repository.MemberRepository;
 import vision.grown.product.Product;
 import vision.grown.product.ProductImage;
 import vision.grown.product.ProductStatus;
+import vision.grown.product.ProductType;
 import vision.grown.product.dto.*;
 import vision.grown.product.respository.ProductImageRepository;
 import vision.grown.product.respository.ProductRepository;
@@ -59,7 +60,18 @@ public class ProductService {
     }
 
     public ReadProductDetailResDto findProductDetail(Long productId){
-        Product product = productRepository.findProduct(productId).orElseThrow();
+        Product product = productRepository.findProductById(productId).orElseThrow();
         return ReadProductDetailResDto.createReadProductDetailResDto(product);
+    }
+
+    public SearchProductResDto<ProductForm> searchProductList(ProductType productType){
+        PageRequest pageRequest = PageRequest.of(0, 30);
+        return new SearchProductResDto<>(productRepository.findByProductType(productType, pageRequest).stream().map(p->ProductForm.builder()
+                .productId(p.getId())
+                .productName(p.getProductName())
+                .minPrice(p.getMinPrice())
+                .minUnit(p.getMinUnit())
+                .memberName(p.getMember().getName())
+                .measurementUnit(p.getMeasurementUnit()).build()).toList());
     }
 }

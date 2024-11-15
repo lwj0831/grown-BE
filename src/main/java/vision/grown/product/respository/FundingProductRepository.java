@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface FundingProductRepository extends JpaRepository<FundingProduct,Long> {
     @Query("select sum(fp.requiredQuantity) from FundingProduct fp where fp.funding.id=:fundingId and fp.productType =:productType")
     int getRequiredQuantity(@Param("fundingId")Long fundingId, @Param("productType") ProductType productType);
+
 }

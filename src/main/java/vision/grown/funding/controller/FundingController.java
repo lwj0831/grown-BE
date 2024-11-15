@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import vision.grown.funding.dto.*;
 import vision.grown.funding.service.FundingService;
+import vision.grown.product.ProductType;
+import vision.grown.product.dto.SearchProductResDto;
 
 import java.util.List;
 
@@ -16,6 +18,10 @@ public class FundingController {
     @GetMapping
     public ReadFundingResDto<ReadFundingForm> findFundingList(@RequestBody ReadFundingReqDto dto){
         return new ReadFundingResDto<>(fundingService.findFundingList(dto));
+    }
+    @GetMapping("/search")
+    public SearchProductResDto<ReadFundingForm> searchFundingList(@RequestParam("productType")ProductType productType){
+        return new SearchProductResDto<>(fundingService.searchFundingList(productType));
     }
 
     @PostMapping("/create")

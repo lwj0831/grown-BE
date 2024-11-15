@@ -36,8 +36,12 @@ public class FundingService {
 
     public List<ReadFundingForm> findFundingList(ReadFundingReqDto dto){
         PageRequest pageRequest = PageRequest.of(0, 30);
-        Page<Funding> fundingPage = fundingRepository.findFundingList(dto.getCenterType(), dto.getFundingStatus(), pageRequest);
-        List<Funding> fundingList = fundingPage.getContent();
+        List<Funding> fundingList = fundingRepository.findFundingList(dto.getCenterType(), dto.getFundingStatus(), pageRequest);
+        return fundingList.stream().map(ReadFundingForm::createReadFundingResDto).toList();
+    }
+    public List<ReadFundingForm> searchFundingList(ProductType productType){
+        PageRequest pageRequest = PageRequest.of(0, 30);
+        List<Funding> fundingList = fundingRepository.findByProductType(productType,pageRequest);
         return fundingList.stream().map(ReadFundingForm::createReadFundingResDto).toList();
     }
     @Transactional
@@ -70,11 +74,9 @@ public class FundingService {
         return new CreateFundingResDto(funding.getId(), funding.getFundingTitle());
     }
     public ReadFundingDetailResDto findFundingDetail(Long fundingId){
-        Funding funding = fundingRepository.findById(fundingId).orElseThrow();
-        Center center = funding.getCenter(); //funding 하나에 연결된 Center 하나 찾으므로 fetch join 안하고 그냥 함
-        //FundingImage N -> fetch join 불가, 지연로딩 사용
+        Funding funding = fundingRepository.findFundingById(fundingId).orElseThrow(); //center와 imageFormList fetch join
+        Center center = funding.getCenter();
         List<ImageForm> imageFormList = funding.getFundingImageList().stream().map(f -> new ImageForm(f.getImageOrder(), f.getUrl())).toList();
-        //
         List<FundingProductDetailForm> fundingProductFormList = funding.getFundingProductList().stream()
                 .map(fp -> {
                     int requiredQuantity = fp.getRequiredQuantity();

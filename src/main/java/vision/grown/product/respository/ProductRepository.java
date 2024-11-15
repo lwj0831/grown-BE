@@ -19,5 +19,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findProductList(@Param("productType")ProductType productType,@Param("productStatus") ProductStatus productStatus, Pageable pageable);
 
     @Query("select p from Product p join fetch p.member join fetch p.productImageList where p.id = :productId")
-    Optional<Product> findProduct(@Param("productId")Long productId);
+    Optional<Product> findProductById(@Param("productId")Long productId);
+
 }
