@@ -8,7 +8,7 @@ import vision.grown.funding.service.OrderFundingService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/orderFunding")
+@RequestMapping("/api/orderFunding")
 public class OrderFundingController {
     private final OrderFundingService orderFundingService;
 

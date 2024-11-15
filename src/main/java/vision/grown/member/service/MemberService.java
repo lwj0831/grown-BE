@@ -42,6 +42,12 @@ public class MemberService {
 
     public ResponseEntity<String> signIn(MemberDTO memberDTO) {
         try {
+            // 이메일 중복 여부 체크
+            Optional<Member> byEmail = memberRepository.findByEmail(memberDTO.getEmail());
+            if (byEmail.isPresent()){
+                return new ResponseEntity<>("이메일 중복됨.", HttpStatus.BAD_REQUEST);
+            }
+
             // 비밀번호 인코딩
             String encoded = passwordEncoder.encode(memberDTO.getPassword());
 
