@@ -4,7 +4,6 @@
 # 못난이 농산물 크라우드 펀딩 플랫폼 GROWN
 
 ---
-<img src="https://github.com/user-attachments/assets/c92b1e05-87a0-44c9-9d11-d38a5dd54c46" width="900">
 
 - 개발 기간 : 24.11.07 ~ 24.11.16
 - 배포 URL : [**babsim-59d06.web.app**]([https://babsim-59d06.web.app](https://github.com/JinVibe/vegetable_android))
