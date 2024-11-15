@@ -49,7 +49,7 @@ public class MemberService {
                     .name(memberDTO.getName())
                     .email(memberDTO.getEmail())
                     .password(encoded)
-                    .phoneNum(memberDTO.getPhoneNumber())
+                    .phoneNum(memberDTO.getPhoneNum())
                     .build());
 
             // 저장된 객체가 null인 경우 처리
