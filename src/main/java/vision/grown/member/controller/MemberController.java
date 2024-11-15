@@ -11,7 +11,7 @@ import vision.grown.member.service.MemberService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/member")
+@RequestMapping("/api/member")
 public class MemberController {
     private final MemberService memberService;
     @Operation(

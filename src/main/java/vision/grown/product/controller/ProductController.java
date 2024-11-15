@@ -10,7 +10,7 @@ import vision.grown.product.service.ProductService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/product")
 public class ProductController {
     private final ProductService productService;
     @GetMapping("/search")
