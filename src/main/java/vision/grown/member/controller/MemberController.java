@@ -2,12 +2,14 @@ package vision.grown.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vision.grown.member.dto.LoginRequestDTO;
 import vision.grown.member.dto.LoginResponseDTO;
 import vision.grown.member.dto.MemberDTO;
+import vision.grown.member.dto.MemberInfoResDto;
 import vision.grown.member.service.MemberService;
 
 @RestController
@@ -49,6 +51,11 @@ public class MemberController {
     @GetMapping("/email/{email}")
     public ResponseEntity<Boolean> isEmailEmpty(@PathVariable String email){
         return memberService.isEmailEmpty(email);
+    }
+
+    @GetMapping("/info/{memberId}")
+    public MemberInfoResDto findMemberInfo(@PathVariable("memberId") Long memberId){
+        return memberService.findMemberInfo(memberId);
     }
 
 }

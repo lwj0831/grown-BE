@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import vision.grown.funding.OrderFunding;
 import vision.grown.member.Member;
 import vision.grown.member.dto.LoginRequestDTO;
 import vision.grown.member.dto.LoginResponseDTO;
 import vision.grown.member.dto.MemberDTO;
+import vision.grown.member.dto.MemberInfoResDto;
 import vision.grown.member.jwt.JwtTokenProvider;
 import vision.grown.member.repository.MemberRepository;
 
@@ -69,5 +71,16 @@ public class MemberService {
     public Optional<Member> checkPermission(Authentication authentication){
         String email = authentication.getName();
         return memberRepository.findByEmail(email);
+    }
+
+    public MemberInfoResDto findMemberInfo(Long memberId){
+        Member member = memberRepository.findMemberById(memberId).orElseThrow();
+        int memberFundingPrice = member.getOrderFundingList().stream().mapToInt(OrderFunding::getOrderFundingPrice).sum();
+        return MemberInfoResDto.builder()
+                .memberId(member.getId())
+                .name(member.getName())
+                .phoneNum(member.getPhoneNum())
+                .memberFundingPrice(memberFundingPrice)
+                .build();
     }
 }
