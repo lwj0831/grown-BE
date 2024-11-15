@@ -22,6 +22,7 @@ public class Member {
     private String email;
     private String password;
     private String name;
+    @Column(name = "phone_num")
     private String phoneNum;
     @Enumerated(EnumType.STRING)
     private MemberType memberType; // Default : NORMAL

@@ -10,10 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vision.grown.funding.OrderFunding;
 import vision.grown.member.Member;
-import vision.grown.member.dto.LoginRequestDTO;
-import vision.grown.member.dto.LoginResponseDTO;
-import vision.grown.member.dto.MemberDTO;
-import vision.grown.member.dto.MemberInfoResDto;
+import vision.grown.member.dto.*;
 import vision.grown.member.jwt.JwtTokenProvider;
 import vision.grown.member.repository.MemberRepository;
 
@@ -82,5 +79,14 @@ public class MemberService {
                 .phoneNum(member.getPhoneNum())
                 .memberFundingPrice(memberFundingPrice)
                 .build();
+    }
+
+    public ResponseEntity<FindIdResponseDTO> findMemberId(FindIdRequestDTO dto){
+        Optional<Member> member = memberRepository.findMemberByNameAndPhoneNum(dto.getName(), dto.getPhoneNum());
+        if (member.isEmpty()){
+            return new ResponseEntity<>(FindIdResponseDTO.builder().build(), HttpStatus.NOT_FOUND);
+        }
+        Member validMember = member.get();
+        return new ResponseEntity<>(FindIdResponseDTO.builder().email(validMember.getEmail()).build(), HttpStatus.OK);
     }
 }

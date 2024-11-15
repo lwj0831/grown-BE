@@ -2,14 +2,10 @@ package vision.grown.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vision.grown.member.dto.LoginRequestDTO;
-import vision.grown.member.dto.LoginResponseDTO;
-import vision.grown.member.dto.MemberDTO;
-import vision.grown.member.dto.MemberInfoResDto;
+import vision.grown.member.dto.*;
 import vision.grown.member.service.MemberService;
 
 @RestController
@@ -53,9 +49,20 @@ public class MemberController {
         return memberService.isEmailEmpty(email);
     }
 
+
+
     @GetMapping("/info/{memberId}")
     public MemberInfoResDto findMemberInfo(@PathVariable("memberId") Long memberId){
         return memberService.findMemberInfo(memberId);
+    }
+
+    @Operation(
+            summary = "아이디(이메일) 찾기",
+            description = "Name과 PhoneNum을 이용해 아이디 찾기 - 못 찾으면 Not Found"
+    )
+    @GetMapping("/find/id")
+    public ResponseEntity<FindIdResponseDTO> findMemberId(@RequestBody FindIdRequestDTO dto){
+        return memberService.findMemberId(dto);
     }
 
 }
