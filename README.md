@@ -20,7 +20,7 @@
 - 협업 툴 : GitHub, Discord, Notion, Figma
 
 
-## 😎 팀원 소개 및및 역할 분담
+## 😎 팀원 소개 및 역할 분담
 
 ---
 
