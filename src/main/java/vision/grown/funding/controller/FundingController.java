@@ -14,16 +14,16 @@ public class FundingController {
     private final FundingService fundingService;
 
     @GetMapping
-    public ReadFundingResDto<ReadFundingForm> searchFunding(@RequestBody ReadFundingReqDto dto){
-        return new ReadFundingResDto<>(fundingService.findFunding(dto));
+    public ReadFundingResDto<ReadFundingForm> findFundingList(@RequestBody ReadFundingReqDto dto){
+        return new ReadFundingResDto<>(fundingService.findFundingList(dto));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public CreateFundingResDto createFunding(@RequestBody CreateFundingReqDto dto){
         return fundingService.createFunding(dto);
     }
     @GetMapping("/{fundingId}")
-    public ReadFundingDetailResDto searchFundingDetail(@PathVariable("fundingId") Long fundingId){
+    public ReadFundingDetailResDto findFundingDetail(@PathVariable("fundingId") Long fundingId){
         return fundingService.findFundingDetail(fundingId);
     }
 }

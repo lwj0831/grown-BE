@@ -14,8 +14,8 @@ import vision.grown.product.service.ProductService;
 public class ProductController {
     private final ProductRepository productRepository;
     private final ProductService productService;
-    @GetMapping("/{productType}")
-    public FindProductResDto<ProductForm> searchProduct(@PathVariable("productType") ProductType productType){
+    @GetMapping("/search")
+    public FindProductResDto<ProductForm> searchProductByProductType(@RequestParam("productType") ProductType productType){
         PageRequest pageRequest = PageRequest.of(0, 30);
         return new FindProductResDto<>(productRepository.findByProductType(productType, pageRequest).stream().map(p->ProductForm.builder()
                 .productId(p.getId())
@@ -26,13 +26,18 @@ public class ProductController {
                 .measurementUnit(p.getMeasurementUnit()).build()).toList());
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public CreateProductResDto createProduct(@RequestBody CreateProductReqDto createProductReqDto){
         return productService.createProduct(createProductReqDto);
     }
 
     @GetMapping
-    public ReadProductResDto<ReadProductForm> findProduct(@RequestBody ReadProductReqDto dto){
-        return productService.findProduct(dto);
+    public ReadProductResDto<ReadProductForm> findProductList(@RequestBody ReadProductReqDto dto){
+        return productService.findProductList(dto);
+    }
+
+    @GetMapping("/{productId}")
+    public ReadProductDetailResDto findProductDetail(@PathVariable("productId")Long productId){
+        return productService.findProductDetail(productId);
     }
 }

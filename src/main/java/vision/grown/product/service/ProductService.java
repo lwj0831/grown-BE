@@ -51,10 +51,15 @@ public class ProductService {
         return new CreateProductResDto(product.getId());
     }
 
-    public ReadProductResDto<ReadProductForm> findProduct(ReadProductReqDto dto){
+    public ReadProductResDto<ReadProductForm> findProductList(ReadProductReqDto dto){
         PageRequest pageRequest = PageRequest.of(0,30);
         List<ReadProductForm> readProductFormList = productRepository.findProductList(dto.getProductType(), dto.getProductStatus(), pageRequest).stream()
                 .map(ReadProductForm::createReadProductForm).toList();
         return new ReadProductResDto<>(readProductFormList);
+    }
+
+    public ReadProductDetailResDto findProductDetail(Long productId){
+        Product product = productRepository.findProduct(productId).orElseThrow();
+        return ReadProductDetailResDto.createReadProductDetailResDto(product);
     }
 }

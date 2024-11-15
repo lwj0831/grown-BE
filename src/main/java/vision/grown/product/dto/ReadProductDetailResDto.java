@@ -4,15 +4,17 @@ import lombok.Builder;
 import lombok.Getter;
 import vision.grown.product.MeasurementUnit;
 import vision.grown.product.Product;
+import vision.grown.product.ProductImage;
 import vision.grown.product.ProductType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
-public class ReadProductForm {
-    private Long productId;
-    private String image;
+public class ReadProductDetailResDto {
+    private List<String> imageUrlList;
     private String productName;
+    private String productContent;
     private String memberName;
     private ProductType productType;
     private LocalDate expireDate;
@@ -21,10 +23,10 @@ public class ReadProductForm {
     private MeasurementUnit measurementUnit;
 
     @Builder
-    public ReadProductForm(Long productId, String image, String productName, String memberName, ProductType productType, LocalDate expireDate, int minPrice, int minUnit, MeasurementUnit measurementUnit) {
-        this.productId = productId;
-        this.image = image;
+    public ReadProductDetailResDto(List<String> imageUrlList, String productName, String productContent, String memberName, ProductType productType, LocalDate expireDate, int minPrice, int minUnit, MeasurementUnit measurementUnit) {
+        this.imageUrlList = imageUrlList;
         this.productName = productName;
+        this.productContent = productContent;
         this.memberName = memberName;
         this.productType = productType;
         this.expireDate = expireDate;
@@ -33,16 +35,17 @@ public class ReadProductForm {
         this.measurementUnit = measurementUnit;
     }
 
-    public static ReadProductForm createReadProductForm(Product product){
-        return ReadProductForm.builder()
-                .productId(product.getId())
+    public static ReadProductDetailResDto createReadProductDetailResDto(Product product){
+        List<String> imageUrlList = product.getProductImageList().stream().map(ProductImage::getUrl).toList();
+        return ReadProductDetailResDto.builder()
+                .imageUrlList(imageUrlList)
                 .productName(product.getProductName())
-                .productType(product.getProductType())
-                .minUnit(product.getMinUnit())
-                .minPrice(product.getMinPrice())
-                .expireDate(product.getProductExpireDate())
-                .image(product.getProductImageList().get(0).getUrl())
+                .productContent(product.getProductContent())
                 .memberName(product.getMember().getName())
+                .productType(product.getProductType())
+                .expireDate(product.getProductExpireDate())
+                .minPrice(product.getMinPrice())
+                .minUnit(product.getMinUnit())
                 .measurementUnit(product.getMeasurementUnit())
                 .build();
     }

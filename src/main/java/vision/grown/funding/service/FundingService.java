@@ -34,7 +34,7 @@ public class FundingService {
     private final FundingImageRepository fundingImageRepository;
     private final OrderProductRepository orderProductRepository;
 
-    public List<ReadFundingForm> findFunding(ReadFundingReqDto dto){
+    public List<ReadFundingForm> findFundingList(ReadFundingReqDto dto){
         PageRequest pageRequest = PageRequest.of(0, 30);
         Page<Funding> fundingPage = fundingRepository.findFundingList(dto.getCenterType(), dto.getFundingStatus(), pageRequest);
         List<Funding> fundingList = fundingPage.getContent();
