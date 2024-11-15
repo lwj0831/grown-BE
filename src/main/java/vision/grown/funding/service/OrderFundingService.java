@@ -1,8 +1,10 @@
 package vision.grown.funding.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vision.grown.exception.MemberNotFoundException;
 import vision.grown.funding.Funding;
 import vision.grown.funding.FundingStatus;
 import vision.grown.funding.OrderFunding;
@@ -14,6 +16,7 @@ import vision.grown.member.repository.MemberRepository;
 import vision.grown.funding.dto.CreateOrderFundingReqDto;
 import vision.grown.funding.dto.CreateOrderFundingResDto;
 import vision.grown.funding.repository.OrderFundingRepository;
+import vision.grown.member.service.MemberService;
 import vision.grown.product.OrderProduct;
 import vision.grown.product.Product;
 import vision.grown.product.respository.FundingProductRepository;
@@ -22,6 +25,7 @@ import vision.grown.product.respository.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static vision.grown.product.OrderProduct.createOrderProduct;
 
@@ -31,14 +35,18 @@ import static vision.grown.product.OrderProduct.createOrderProduct;
 public class OrderFundingService {
     private final OrderFundingRepository orderFundingRepository;
     private final ProductRepository productRepository;
-    private final MemberRepository memberRepository;
     private final FundingRepository fundingRepository;
     private final OrderProductRepository orderProductRepository;
     private final FundingProductRepository fundingProductRepository;
+    private final MemberService memberService;
 
     @Transactional
-    public CreateOrderFundingResDto createOrderFunding(CreateOrderFundingReqDto dto){
-        Member member = memberRepository.findById(dto.getMemberId()).orElseThrow();
+    public CreateOrderFundingResDto createOrderFunding(CreateOrderFundingReqDto dto, Authentication authentication){
+        Optional<Member> checkMember = memberService.checkPermission(authentication);
+        if (checkMember.isEmpty()){
+            throw new MemberNotFoundException("Member not found");
+        }
+        Member member = checkMember.get();
         Funding funding = fundingRepository.findById(dto.getFundingId()).orElseThrow();
 
         OrderFunding orderFunding = OrderFunding.createOrderFunding(member,funding);

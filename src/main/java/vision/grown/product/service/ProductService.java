@@ -3,10 +3,16 @@ package vision.grown.product.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vision.grown.exception.MemberNotFoundException;
+import vision.grown.image.ImageS3Service;
 import vision.grown.member.Member;
 import vision.grown.member.repository.MemberRepository;
+import vision.grown.member.service.MemberService;
 import vision.grown.product.Product;
 import vision.grown.product.ProductImage;
 import vision.grown.product.ProductStatus;
@@ -16,6 +22,7 @@ import vision.grown.product.respository.ProductImageRepository;
 import vision.grown.product.respository.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -25,10 +32,16 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
     private final ProductImageRepository productImageRepository;
+    private final MemberService memberService;
+    private final ImageS3Service imageS3Service;
 
     @Transactional
-    public CreateProductResDto createProduct(CreateProductReqDto dto){
-        Member member = memberRepository.findById(dto.getMemberId()).orElseThrow();
+    public CreateProductResDto createProduct(CreateProductReqDto dto, Authentication authentication){
+        Optional<Member> checkMember = memberService.checkPermission(authentication);
+        if (checkMember.isEmpty()){
+            throw new MemberNotFoundException("Member not found");
+        }
+        Member member = checkMember.get();
 
         Product product = Product.builder().productName(dto.getProductName())
                 .productContent(dto.getProductContent())
@@ -44,10 +57,8 @@ public class ProductService {
         productRepository.save(product);
 
         AtomicInteger counter = new AtomicInteger(1);
-        List<ProductImage> productImageList = dto.getImageUrlList().stream().map(url -> ProductImage.builder()
-                .url(url)
-                .imageOrder(counter.getAndIncrement())
-                .product(product).build()).toList();
+        List<ProductImage> productImageList = dto.getImageList().stream()
+                .map(i -> imageS3Service.uploadProductImage(i,product,counter.getAndIncrement())).toList();
         productImageRepository.saveAll(productImageList);
 
         return new CreateProductResDto(product.getId());
@@ -77,7 +88,6 @@ public class ProductService {
         List<ReadProductForm> readProductFormList = productRepository.findByProductType(productType, pageRequest).stream()
                 .map(ReadProductForm::createReadProductForm).toList();
         return new SearchProductResDto<>(readProductFormList);
-
     }
 
 }

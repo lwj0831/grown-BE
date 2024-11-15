@@ -16,4 +16,11 @@ public class ExControllerAdvice {
         ErrorResult errorResult = new ErrorResult("NotEnoughMoney-EX",e.getMessage());
         return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ResponseEntity<ErrorResult> memberNotFoundExHandle(MemberNotFoundException e){
+        log.info("MemberNotFoundException occurs! : {}",e);
+        ErrorResult errorResult = new ErrorResult("MemberNotFound-EX",e.getMessage());
+        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+    }
 }
