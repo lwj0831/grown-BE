@@ -70,15 +70,19 @@ public class MemberService {
         return memberRepository.findByEmail(email);
     }
 
-    public MemberInfoResDto findMemberInfo(Long memberId){
-        Member member = memberRepository.findMemberById(memberId).orElseThrow();
-        int memberFundingPrice = member.getOrderFundingList().stream().mapToInt(OrderFunding::getOrderFundingPrice).sum();
-        return MemberInfoResDto.builder()
-                .memberId(member.getId())
-                .name(member.getName())
-                .phoneNum(member.getPhoneNum())
+    public ResponseEntity<MemberInfoResDto> findMemberInfo(Authentication authentication){
+        Optional<Member> member = checkPermission(authentication);
+        if (member.isEmpty()){
+            return new ResponseEntity<>(MemberInfoResDto.builder().build(), HttpStatus.BAD_REQUEST);
+        }
+        Member validMember = member.get();
+        int memberFundingPrice = validMember.getOrderFundingList().stream().mapToInt(OrderFunding::getOrderFundingPrice).sum();
+        return new ResponseEntity<>(MemberInfoResDto.builder()
+                .memberId(validMember.getId())
+                .name(validMember.getName())
+                .phoneNum(validMember.getPhoneNum())
                 .memberFundingPrice(memberFundingPrice)
-                .build();
+                .build(), HttpStatus.OK);
     }
 
     public ResponseEntity<FindIdResponseDTO> findMemberId(FindIdRequestDTO dto){

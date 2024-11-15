@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import vision.grown.member.dto.*;
 import vision.grown.member.service.MemberService;
@@ -50,10 +51,12 @@ public class MemberController {
     }
 
 
-
-    @GetMapping("/info/{memberId}")
-    public MemberInfoResDto findMemberInfo(@PathVariable("memberId") Long memberId){
-        return memberService.findMemberInfo(memberId);
+    @Operation(
+            summary = "마이 페이지 열람"
+    )
+    @GetMapping("/info")
+    public ResponseEntity<MemberInfoResDto> findMemberInfo(Authentication authentication){
+        return memberService.findMemberInfo(authentication);
     }
 
     @Operation(
