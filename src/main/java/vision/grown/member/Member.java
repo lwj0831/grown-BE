@@ -22,6 +22,7 @@ public class Member {
     private String email;
     private String password;
     private String name;
+    @Column(name = "phone_num")
     private String phoneNum;
     @Enumerated(EnumType.STRING)
     private MemberType memberType; // Default : NORMAL
@@ -29,6 +30,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     @JsonIgnore
     private List<OrderFunding> orderFundingList = new ArrayList<>();
+
+    public void updatePassword(String password){
+        this.password = password;
+    }
 
     @Builder
     public Member(String email, String password, String name, String phoneNum) {

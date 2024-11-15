@@ -5,9 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class MemberInfoResDto {
+public class ChangePasswordResDTO {
     private String name;
-    private String phoneNum;
-    private Long memberId;
-    private int memberFundingPrice;
+    private String message;
 }

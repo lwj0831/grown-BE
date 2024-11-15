@@ -2,14 +2,11 @@ package vision.grown.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import vision.grown.member.dto.LoginRequestDTO;
-import vision.grown.member.dto.LoginResponseDTO;
-import vision.grown.member.dto.MemberDTO;
-import vision.grown.member.dto.MemberInfoResDto;
+import vision.grown.member.dto.*;
 import vision.grown.member.service.MemberService;
 
 @RestController
@@ -53,9 +50,30 @@ public class MemberController {
         return memberService.isEmailEmpty(email);
     }
 
-    @GetMapping("/info/{memberId}")
-    public MemberInfoResDto findMemberInfo(@PathVariable("memberId") Long memberId){
-        return memberService.findMemberInfo(memberId);
+
+    @Operation(
+            summary = "마이 페이지 열람"
+    )
+    @GetMapping("/info")
+    public ResponseEntity<MemberInfoResDto> findMemberInfo(Authentication authentication){
+        return memberService.findMemberInfo(authentication);
     }
 
+    @Operation(
+            summary = "아이디(이메일) 찾기",
+            description = "Name과 PhoneNum을 이용해 아이디 찾기 - 못 찾으면 Not Found"
+    )
+    @GetMapping("/find/id")
+    public ResponseEntity<FindIdResponseDTO> findMemberId(@RequestBody FindIdRequestDTO dto){
+        return memberService.findMemberId(dto);
+    }
+
+    @Operation(
+            summary = "비밀번호 변경",
+            description = "email에 해당하는 유저의 비밀번호 변경 - email에 해당하는 유저 없으면 Not Found"
+    )
+    @PutMapping("/change/password")
+    public ResponseEntity<ChangePasswordResDTO> changePassword(@RequestBody ChangePasswordReqDTO dto){
+        return memberService.changePassword(dto);
+    }
 }
