@@ -22,7 +22,7 @@ public class ProductController {
             summary = "상품 판매 등록"
     )
     @PostMapping("/create")
-    public CreateProductResDto createProduct(@RequestBody CreateProductReqDto createProductReqDto, Authentication authentication){
+    public CreateProductResDto createProduct(@ModelAttribute CreateProductReqDto createProductReqDto, Authentication authentication){
         return productService.createProduct(createProductReqDto, authentication);
     }
 
