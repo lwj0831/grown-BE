@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import vision.grown.funding.Funding;
 import vision.grown.funding.FundingStatus;
 import vision.grown.funding.OrderFunding;
+import vision.grown.funding.dto.ReadOrderFundingForm;
+import vision.grown.funding.dto.ReadOrderFundingResDto;
 import vision.grown.funding.repository.FundingRepository;
 import vision.grown.member.Member;
 import vision.grown.member.repository.MemberRepository;
@@ -78,6 +80,11 @@ public class OrderFundingService {
         }
         if (check) funding.setFundingStatus(FundingStatus.COMP);
 
+    }
+
+    public ReadOrderFundingResDto<ReadOrderFundingForm> findMyOrderFunding(Long memberId){
+        List<OrderFunding> orderFunding = orderFundingRepository.findOrderFundingByMemberId(memberId);
+        return new ReadOrderFundingResDto<>(orderFunding.stream().map(ReadOrderFundingForm::createReadOrderFundingResDto).toList());
     }
 
 }

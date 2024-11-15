@@ -1,12 +1,8 @@
 package vision.grown.funding.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import vision.grown.funding.dto.CreateOrderFundingReqDto;
-import vision.grown.funding.dto.CreateOrderFundingResDto;
+import org.springframework.web.bind.annotation.*;
+import vision.grown.funding.dto.*;
 import vision.grown.funding.service.OrderFundingService;
 
 @RestController
@@ -18,5 +14,9 @@ public class OrderFundingController {
     @PostMapping("/create")
     public CreateOrderFundingResDto createOrderFunding(@RequestBody CreateOrderFundingReqDto dto){
         return orderFundingService.createOrderFunding(dto);
+    }
+    @GetMapping("/{memberId}")
+    public ReadOrderFundingResDto<ReadOrderFundingForm> findMyOrderFunding(@PathVariable("memberId")Long memberId){
+        return orderFundingService.findMyOrderFunding(memberId);
     }
 }
