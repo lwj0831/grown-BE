@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:file:dev.env[.properties]
   datasource:
     driver-class-name: ${DB_DRIVER}
     url: ${DB_URL}
@@ -6,11 +8,14 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
         format_sql: true
+        default_batch_fetch_size: 100
     logging.level:
       org.hibernate.SQL: debug
       org.hibernate.type: trace
+JWT:
+  SECRET-KEY: ${JWT_KEY}
