@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import vision.grown.funding.OrderFunding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,7 +28,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     @JsonIgnore
-    private List<OrderFunding> orderFundingList;
+    private List<OrderFunding> orderFundingList = new ArrayList<>();
 
     @Builder
     public Member(String email, String password, String name, String phoneNum) {
