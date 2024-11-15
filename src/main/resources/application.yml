@@ -19,3 +19,15 @@ spring:
       org.hibernate.type: trace
 JWT:
   SECRET-KEY: ${JWT_KEY}
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${ACCESS_KEY}
+      secretKey: ${SECRET_KEY}
+    s3:
+      bucketName: ${BUCKET_NAME}
+    region:
+      static: eu-north-1
+    stack:
+      auto: false

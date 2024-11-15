@@ -2,6 +2,7 @@ package vision.grown.funding.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import vision.grown.funding.dto.*;
 import vision.grown.funding.service.FundingService;
 import vision.grown.product.ProductType;
@@ -28,8 +29,12 @@ public class FundingController {
         return new ReadFundingResDto<>(fundingService.findDeadLineFunding());
     }
 
-    @PostMapping("/create")
-    public CreateFundingResDto createFunding(@RequestBody CreateFundingReqDto dto){
+    @PostMapping(value = "/create",consumes = "multipart/form-data")
+    public CreateFundingResDto createFunding(@ModelAttribute CreateFundingReqDto dto){
+        List<MultipartFile> imageList = dto.getImageList();
+        for (MultipartFile multipartFile : imageList) {
+            System.out.println(multipartFile);
+        }
         return fundingService.createFunding(dto);
     }
     @GetMapping("/{fundingId}")

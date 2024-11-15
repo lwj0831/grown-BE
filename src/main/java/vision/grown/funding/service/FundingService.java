@@ -14,6 +14,7 @@ import vision.grown.funding.OrderFunding;
 import vision.grown.funding.dto.*;
 import vision.grown.funding.repository.FundingImageRepository;
 import vision.grown.funding.repository.FundingRepository;
+import vision.grown.image.ImageS3Service;
 import vision.grown.product.FundingProduct;
 import vision.grown.product.ProductType;
 import vision.grown.product.dto.FundingProductDetailForm;
@@ -33,6 +34,7 @@ public class FundingService {
     private final FundingProductRepository fundingProductRepository;
     private final FundingImageRepository fundingImageRepository;
     private final OrderProductRepository orderProductRepository;
+    private final ImageS3Service imageS3Service;
 
     public List<ReadFundingForm> findFundingList(ReadFundingReqDto dto){
         PageRequest pageRequest = PageRequest.of(0, 30);
@@ -62,9 +64,8 @@ public class FundingService {
         fundingRepository.save(funding);
 
         AtomicInteger counter = new AtomicInteger(1);
-        List<FundingImage> fundingImageList = dto.getImageUrlList().stream()
-                .map(url -> FundingImage.builder().url(url).imageOrder(counter.getAndIncrement()).funding(funding).build())
-                .toList();
+        List<FundingImage> fundingImageList = dto.getImageList().stream()
+                .map(i->imageS3Service.uploadFundingImage(i,funding,counter.getAndIncrement())).toList();
         fundingImageRepository.saveAll(fundingImageList);
 
         List<FundingProduct> fundingProductList = dto.getFundingProductFormList().stream()

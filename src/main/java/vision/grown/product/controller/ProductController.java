@@ -17,7 +17,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public CreateProductResDto createProduct(@RequestBody CreateProductReqDto createProductReqDto){
+    public CreateProductResDto createProduct(@ModelAttribute CreateProductReqDto createProductReqDto){
         return productService.createProduct(createProductReqDto);
     }
 

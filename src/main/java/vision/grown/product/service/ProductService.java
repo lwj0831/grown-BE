@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vision.grown.image.ImageS3Service;
 import vision.grown.member.Member;
 import vision.grown.member.repository.MemberRepository;
 import vision.grown.product.Product;
@@ -25,6 +26,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
     private final ProductImageRepository productImageRepository;
+    private final ImageS3Service imageS3Service;
 
     @Transactional
     public CreateProductResDto createProduct(CreateProductReqDto dto){
@@ -44,10 +46,8 @@ public class ProductService {
         productRepository.save(product);
 
         AtomicInteger counter = new AtomicInteger(1);
-        List<ProductImage> productImageList = dto.getImageUrlList().stream().map(url -> ProductImage.builder()
-                .url(url)
-                .imageOrder(counter.getAndIncrement())
-                .product(product).build()).toList();
+        List<ProductImage> productImageList = dto.getImageList().stream()
+                .map(i -> imageS3Service.uploadProductImage(i,product,counter.getAndIncrement())).toList();
         productImageRepository.saveAll(productImageList);
 
         return new CreateProductResDto(product.getId());
